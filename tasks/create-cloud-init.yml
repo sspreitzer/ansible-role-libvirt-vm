@@ -1,0 +1,26 @@
+- name: Create tmp directory
+  file:
+    path: "{{ libvirt_vm_image_cache_path }}/libvirt-vm-cloud-init/{{ vm.name }}"
+    state: directory
+
+- name: Create meta-data
+  copy:
+    dest: "{{ libvirt_vm_image_cache_path }}/libvirt-vm-cloud-init/{{ vm.name }}/meta-data"
+    content: |
+      instance-id: {{ vm.name }}
+      local-hostname: {{ vm.name }}
+
+- name: Create user-data
+  copy:
+    dest: "{{ libvirt_vm_image_cache_path }}/libvirt-vm-cloud-init/{{ vm.name }}/user-data"
+    content: "{{ cloudinit }}"
+
+- name: Create cloud-init iso file
+  shell: "mkisofs -o {{ libvirt_volume_default_images_path }}/{{ vm.name }}-cloud-init.iso -V cidata -r -J meta-data user-data"
+  args:
+    chdir: "{{ libvirt_vm_image_cache_path }}/libvirt-vm-cloud-init/{{ vm.name }}"
+
+- name: Remove tmp directory
+  file:
+    path: "{{ libvirt_vm_image_cache_path }}/libvirt-vm-cloud-init/{{ vm.name }}"
+    state: absent

@@ -16,6 +16,10 @@
     interface: "{{ item }}"
   with_items: "{{ interfaces }}"
 
+- name: Create cloud-init iso
+  include_tasks: create-cloud-init.yml
+  when: cloudinit != ''
+
 - name: Ensure the VM is defined
   virt:
     name: "{{ vm.name }}"

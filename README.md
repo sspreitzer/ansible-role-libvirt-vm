@@ -9,6 +9,9 @@ Requirements
 The host should have Virtualization Technology (VT) enabled and should
 be preconfigured with libvirt/KVM.
 
+* python-libvirt installed on the target host
+* mkisofs installed on the target host when using the cloud-init feature
+
 Role Variables
 --------------
 
@@ -128,6 +131,9 @@ Role Variables
     - `xml_file`: Optionally supply a modified XML template. Base customisation
       off the default `vm.xml.j2` template so as to include the expected jinja
       expressions the role uses.
+
+    - `cloudinit`: Optionally supply a cloud-init user-data configuration for
+      the VM.
 
 N.B. the following variables are deprecated: `libvirt_vm_state`,
 `libvirt_vm_name`, `libvirt_vm_memory_mb`, `libvirt_vm_vcpus`,

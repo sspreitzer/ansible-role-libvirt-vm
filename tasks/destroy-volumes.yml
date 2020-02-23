@@ -11,3 +11,8 @@
     - volume_result is success
     - (volume_result.stdout | from_json).changed | default(True)
   become: yes
+
+- name: Ensure the cloud-init iso does not exist
+  file:
+    path: "{{ libvirt_volume_default_images_path }}/{{ vm.name }}-cloud-init.iso"
+    state: absent

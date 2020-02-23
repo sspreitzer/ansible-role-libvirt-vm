@@ -45,6 +45,15 @@
       {% endif %}
     </disk>
 {% endfor %}
+{% if cloudinit != '' %}
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='{{ libvirt_volume_default_images_path }}/{{ vm.name }}-cloud-init.iso'/>
+      <backingStore/>
+      <target dev='hdd' bus='ide'/>
+      <readonly/>
+    </disk>
+{% endif %}
 {% for interface in interfaces %}
 {% if interface.type is defined and interface.type == 'direct' %}
     <interface type='direct'>
